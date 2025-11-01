@@ -216,3 +216,118 @@ public class Quanlythanhtoandonhang {
         order3.checkout();
     }
 }
+
+
+
+
+
+
+//🧠 1️⃣ TÍNH TRỪU TƯỢNG (Abstraction)
+//
+//        Ẩn đi chi tiết cài đặt, chỉ cho thấy những gì cần thiết.
+//
+//        💡 Trong code:
+//        abstract class Product {
+//            public abstract String getInfo();
+//        }
+//
+//        interface PaymentMethod {
+//            void pay(double amount, String customerName);
+//        }
+//
+//
+//👉 Product và PaymentMethod là hai thành phần trừu tượng:
+//
+//        Product chỉ nói rằng “mọi sản phẩm đều có thể lấy thông tin (getInfo)”,
+//        nhưng không nói cách hiển thị thông tin cụ thể.
+//        → ElectronicProduct, FoodProduct sẽ tự định nghĩa chi tiết riêng.
+//
+//        PaymentMethod chỉ nói rằng “mọi phương thức thanh toán đều có thể pay()”,
+//        còn cụ thể trả tiền mặt, quẹt thẻ, hay Momo thì do lớp con quyết định.
+//
+//        🎯 Lợi ích:
+//        Giúp code tổng quát, dễ mở rộng — ví dụ bạn có thể thêm ZaloPayPayment mà không cần sửa lớp Order.
+//
+//🧬 2️⃣ TÍNH KẾ THỪA (Inheritance)
+//
+//        Lớp con kế thừa thuộc tính và hành vi của lớp cha, có thể mở rộng hoặc ghi đè.
+//
+//        💡 Trong code:
+//        class ElectronicProduct extends Product { ... }
+//        class FoodProduct extends Product { ... }
+//
+//
+//        Cả hai lớp con kế thừa thuộc tính: productId, name, price, category từ Product.
+//
+//        Đồng thời ghi đè lại phương thức getInfo() để hiển thị theo cách riêng.
+//
+//        ➡ Ví dụ:
+//
+//        @Override
+//        public String getInfo() {
+//            return String.format("[%s] %s - %.0f VND | IMEI: %s | Bảo hành: %d tháng", ...);
+//        }
+//
+//
+//🎯 Lợi ích:
+//        Giúp tái sử dụng code — không cần viết lại các trường cơ bản cho từng loại sản phẩm.
+//        Chỉ cần kế thừa và mở rộng.
+//
+//🌀 3️⃣ TÍNH ĐA HÌNH (Polymorphism)
+//
+//        Cùng một lời gọi (phương thức), nhưng hành vi khác nhau tùy đối tượng thực tế.
+//
+//        💡 Trong code:
+//        Product p1 = new ElectronicProduct(...);
+//        Product p2 = new FoodProduct(...);
+//
+//        System.out.println(p1.getInfo());
+//        System.out.println(p2.getInfo());
+//
+//
+//        Cả hai biến p1, p2 đều có kiểu Product,
+//        nhưng khi gọi getInfo():
+//
+//        p1 → chạy getInfo() của ElectronicProduct
+//
+//        p2 → chạy getInfo() của FoodProduct
+//
+//        Tương tự:
+//
+//        Order order1 = new Order("A", new CashPayment());
+//        Order order2 = new Order("B", new CreditCardPayment());
+//        Order order3 = new Order("C", new MomoPayment());
+//
+//order1.checkout(); // gọi pay() của CashPayment
+//order2.checkout(); // gọi pay() của CreditCardPayment
+//order3.checkout(); // gọi pay() của MomoPayment
+//
+//
+//🎯 Lợi ích:
+//        Giúp chương trình linh hoạt và mở rộng dễ dàng,
+//        Order không cần biết kiểu thanh toán cụ thể nào, chỉ cần gọi pay() là được.
+//
+//        🔒 4️⃣ TÍNH ĐÓNG GÓI (Encapsulation)
+//
+//        Giấu dữ liệu bên trong lớp, chỉ cho phép truy cập thông qua phương thức.
+//
+//        💡 Trong code:
+//        class Order {
+//            private String customerName;
+//            private List<Product> products;
+//            private PaymentMethod paymentMethod;
+//        }
+//
+//
+//        Các thuộc tính customerName, products, paymentMethod đều là private → không thể truy cập trực tiếp từ bên ngoài.
+//
+//        Thay vào đó, ta tương tác gián tiếp qua phương thức:
+//
+//        public void addProduct(Product p) { ... }
+//        public double calculateTotal() { ... }
+//        public void checkout() { ... }
+//
+//
+//🎯 Lợi ích:
+//        Bảo vệ dữ liệu nội bộ của đối tượng,
+//        ngăn can thiệp sai (ví dụ không cho người ngoài tự sửa products hay paymentMethod).
